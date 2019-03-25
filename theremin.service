@@ -1,0 +1,13 @@
+[Unit]
+Description=Service for thereminPi
+After=network.target
+
+[Service]
+ExecStart=/home/pi/theremin/bin/thereminPi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
