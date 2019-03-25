@@ -57,7 +57,6 @@ void onTouchCb( FlickTouch_t touch, uint16_t period ){
 			} else {
 				tap = true;
 			}
-			cout<<tap<<endl;
 			time(&tappedst);
 			isTapped = true;
 		}
@@ -96,12 +95,10 @@ void onGestureCb(FlickGesture_t gesture, FlickGestureClass_t gestClass, bool isE
 	case FLICK_SOUTH_TO_NORTH:
 		editPitch = true;
 		editVol = false;
-		cout<<"editPitch"<<endl;
 		break;
 	case FLICK_NORTH_TO_SOUTH:
 		editVol = true;
 		editPitch = false;
-		cout<<"editVol"<<endl;
 		break;
 	default:
 		break;
@@ -115,6 +112,8 @@ void onXYZCb(uint16_t x, uint16_t y, uint16_t z){
 
 int main(int argc,char **argv)
 {
+	system("jackd -d alsa -P");
+	usleep(500000);
 	Flick flick(27,17);
 	flick.touchCallback = onTouchCb;
 	flick.airWheelCallback = airwheelCb;
@@ -182,7 +181,6 @@ int main(int argc,char **argv)
 				} 
 				if(difftime(ct,st) >= 3){
 					jack.end();
-					cout<<"Ended program"<<endl;
 					break;
 				} else {
 					time(&ct);
@@ -199,9 +197,9 @@ int main(int argc,char **argv)
 		}
 		usleep(1);
 	}
-//	system("pkill jackd"); add "&" sign to keep process running while continuing the thread
-//	system("pkill screen");
-//	system("sudo shutdown now");
+	system("pkill jackd");
+	usleep(250000);
+	system("sudo shutdown now");
 
 	return 0;
 }
